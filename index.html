@@ -12,11 +12,7 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
-                    colors: {
-                        brand: { 50: '#ecfdf5', 100: '#d1fae5', 500: '#10b981', 600: '#059669', 700: '#047857', 900: '#064e3b' },
-                        dark: { bg: '#0f172a', card: '#1e293b', input: '#334155', border: '#475569' }
-                    }
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
                 }
             }
         }
@@ -27,18 +23,14 @@
         input[type=number]::-webkit-inner-spin-button, 
         input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
         input[type=number] { -moz-appearance: textfield; }
-        @media print {
-            .no-print { display: none !important; }
-            body { background-color: #ffffff !important; color: #000000 !important; }
-        }
     </style>
 </head>
 <body class="min-h-screen bg-slate-950 text-slate-100 flex flex-col justify-between p-4 sm:p-6 max-w-md mx-auto font-sans">
 
-    <div id="exportArea">
+    <div>
         <header class="flex items-center justify-between mb-5 pt-1">
             <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-emerald-400 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                <div class="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center shadow-lg">
                     <i class="fa-solid fa-calculator text-white text-lg"></i>
                 </div>
                 <div>
@@ -46,7 +38,7 @@
                     <p class="text-[11px] text-slate-400 mt-1">Gestión de Impuestos Autónomos</p>
                 </div>
             </div>
-            <span class="px-2.5 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-full text-[11px] font-bold">
+            <span class="px-2.5 py-1 bg-emerald-950 border border-emerald-500 text-emerald-400 rounded-full text-[11px] font-bold">
                 Andalucía
             </span>
         </header>
@@ -54,7 +46,7 @@
         <main class="space-y-3.5">
             <!-- Formulario principal -->
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl relative overflow-hidden">
-                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 to-teal-400"></div>
+                <div class="absolute top-0 left-0 w-full h-1 bg-emerald-500"></div>
                 
                 <div class="grid grid-cols-2 gap-2.5 mb-3">
                     <div>
@@ -83,7 +75,7 @@
                     <button 
                         id="clearBtn" 
                         onclick="clearInput()" 
-                        class="hidden no-print absolute right-2.5 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center"
+                        class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center"
                     >
                         <i class="fa-solid fa-xmark text-xs"></i>
                     </button>
@@ -122,7 +114,7 @@
             </div>
 
             <!-- Resumen Neto -->
-            <div class="bg-gradient-to-br from-emerald-950/90 via-slate-900 to-slate-900 border border-emerald-500/30 rounded-2xl p-4 shadow-xl">
+            <div class="bg-slate-900 border border-emerald-500/40 rounded-2xl p-4 shadow-xl">
                 <div class="flex items-center space-x-1.5 text-emerald-400 text-xs font-extrabold uppercase tracking-wider">
                     <i class="fa-solid fa-wallet text-xs"></i>
                     <span>Beneficio Neto Real</span>
@@ -176,17 +168,17 @@
             </div>
 
             <!-- Botones de Acción -->
-            <div class="grid grid-cols-2 gap-2.5 no-print">
+            <div class="grid grid-cols-2 gap-2.5">
                 <button 
                     onclick="saveRecord()" 
-                    class="w-full bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition shadow-lg shadow-blue-600/20"
+                    class="w-full bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition shadow-lg"
                 >
                     <i class="fa-solid fa-floppy-disk"></i>
                     <span>Guardar Registro</span>
                 </button>
                 <button 
                     onclick="exportToPDF()" 
-                    class="w-full bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition shadow-lg shadow-emerald-600/20"
+                    class="w-full bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition shadow-lg"
                 >
                     <i class="fa-solid fa-file-pdf"></i>
                     <span>Exportar PDF</span>
@@ -194,7 +186,7 @@
             </div>
 
             <!-- Historial Guardado -->
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl space-y-3 no-print">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl space-y-3">
                 <div class="flex items-center justify-between pb-2 border-b border-slate-800">
                     <div>
                         <h3 class="text-xs font-bold uppercase tracking-wider text-white">Historial de Cobros</h3>
@@ -213,7 +205,7 @@
         </main>
     </div>
 
-    <footer class="mt-4 text-center no-print">
+    <footer class="mt-4 text-center">
         <p class="text-[10px] text-slate-500">
             Calculadora optimizada para móviles autónomos.
         </p>
@@ -354,20 +346,95 @@
         }
 
         function exportToPDF() {
-            const element = document.getElementById('exportArea');
-            const dateStr = new Date().toISOString().slice(0, 10);
+            const costeTotal = parseFloat(totalInput.value) || 0;
+            if (costeTotal <= 0) {
+                showToast('Introduce un importe válido');
+                return;
+            }
+
+            const concept = conceptInput.value.trim() || 'Sin concepto';
+            const client = clientInput.value.trim() || 'General';
+            const dateStr = new Date().toLocaleDateString('es-ES');
+
+            const pdfContainer = document.createElement('div');
+            pdfContainer.style.padding = '30px';
+            pdfContainer.style.backgroundColor = '#ffffff';
+            pdfContainer.style.color = '#1e293b';
+            pdfContainer.style.fontFamily = 'Arial, sans-serif';
+            pdfContainer.style.width = '600px';
+
+            pdfContainer.innerHTML = `
+                <div style="border-bottom: 2px solid #10b981; padding-bottom: 10px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h1 style="font-size: 22px; color: #047857; margin: 0; font-weight: bold;">FacturaSmart</h1>
+                        <p style="font-size: 12px; color: #64748b; margin: 2px 0 0 0;">Informe de Cálculo de Impuestos</p>
+                    </div>
+                    <div style="text-align: right; font-size: 12px; color: #64748b;">
+                        <p style="margin: 0;">Fecha: <strong>${dateStr}</strong></p>
+                    </div>
+                </div>
+
+                <div style="background-color: #f8fafc; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #e2e8f0;">
+                    <p style="margin: 0 0 5px 0; font-size: 13px;"><strong>Concepto / Mes:</strong> ${concept}</p>
+                    <p style="margin: 0; font-size: 13px;"><strong>Cliente / Nota:</strong> ${client}</p>
+                </div>
+
+                <table style="width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 20px;">
+                    <thead>
+                        <tr style="background-color: #f1f5f9; text-align: left; color: #334155;">
+                            <th style="padding: 10px; border-bottom: 2px solid #cbd5e1;">Concepto</th>
+                            <th style="padding: 10px; border-bottom: 2px solid #cbd5e1; text-align: right;">Importe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 10px; border-bottom: 1px solid #e2e8f0;">Total Generado / Facturado</td>
+                            <td style="padding: 10px; border-bottom: 1px solid #e2e8f0; text-align: right; font-weight: bold;">${document.getElementById('costeTotalValue').innerText}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border-bottom: 1px solid #e2e8f0;">Base Imponible (Sueldo Bruto)</td>
+                            <td style="padding: 10px; border-bottom: 1px solid #e2e8f0; text-align: right;">${document.getElementById('baseValue').innerText}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border-bottom: 1px solid #e2e8f0;">IVA Repercutido (${document.getElementById('ivaRateLabel').innerText})</td>
+                            <td style="padding: 10px; border-bottom: 1px solid #e2e8f0; text-align: right; color: #059669;">${document.getElementById('ivaValue').innerText}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border-bottom: 1px solid #e2e8f0;">Retención IRPF (${document.getElementById('irpfRateLabel').innerText})</td>
+                            <td style="padding: 10px; border-bottom: 1px solid #e2e8f0; text-align: right; color: #e11d48;">${document.getElementById('irpfValue').innerText}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="background-color: #ecfdf5; padding: 15px; border-radius: 8px; border: 1px solid #a7f3d0; text-align: right;">
+                    <span style="font-size: 12px; color: #047857; text-transform: uppercase; font-weight: bold; display: block;">BENEFICIO NETO REAL</span>
+                    <span style="font-size: 26px; color: #047857; font-weight: font-black;">${document.getElementById('netProfitValue').innerText}</span>
+                </div>
+
+                <div style="margin-top: 15px; display: flex; justify-content: space-between; font-size: 12px;">
+                    <div style="background-color: #f8fafc; padding: 10px; border-radius: 6px; width: 48%; border: 1px solid #e2e8f0;">
+                        <span style="color: #64748b; display: block;">Cobro Líquido Banco:</span>
+                        <strong style="font-size: 14px; color: #0f172a;">${document.getElementById('liquidValue').innerText}</strong>
+                    </div>
+                    <div style="background-color: #fef3c7; padding: 10px; border-radius: 6px; width: 48%; border: 1px solid #fde68a;">
+                        <span style="color: #b45309; display: block;">Apartar Hucha IVA:</span>
+                        <strong style="font-size: 14px; color: #b45309;">${document.getElementById('huchaValue').innerText}</strong>
+                    </div>
+                </div>
+            `;
+
             showToast('Generando PDF...');
 
             const opt = {
                 margin:       0.3,
-                filename:     `FacturaSmart_${dateStr}.pdf`,
+                filename:     `FacturaSmart_${new Date().toISOString().slice(0, 10)}.pdf`,
                 image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, backgroundColor: '#0f172a' },
+                html2canvas:  { scale: 2, useCORS: true, logging: false },
                 jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
             };
 
-            html2pdf().set(opt).from(element).save().then(() => {
-                showToast('¡PDF de cálculo listo!');
+            html2pdf().set(opt).from(pdfContainer).save().then(() => {
+                showToast('¡PDF generado con éxito!');
             });
         }
 
@@ -382,53 +449,57 @@
                 const numNet = parseFloat(r.net.replace(/[^0-9,-]+/g, "").replace(',', '.'));
                 if (!isNaN(numNet)) totalNetAcc += numNet;
                 return `
-                    <tr style="border-bottom: 1px solid #334155;">
+                    <tr style="border-bottom: 1px solid #e2e8f0;">
                         <td style="padding: 8px;">${r.date}</td>
                         <td style="padding: 8px;">${r.concept}</td>
                         <td style="padding: 8px;">${r.client}</td>
                         <td style="padding: 8px; text-align: right;">${formatCurrency(r.total)}</td>
-                        <td style="padding: 8px; text-align: right; color: #10b981; font-weight: bold;">${r.net}</td>
+                        <td style="padding: 8px; text-align: right; color: #059669; font-weight: bold;">${r.net}</td>
                     </tr>
                 `;
             }).join('');
 
             const historyContainer = document.createElement('div');
-            historyContainer.style.padding = '20px';
-            historyContainer.style.backgroundColor = '#0f172a';
-            historyContainer.style.color = '#ffffff';
-            historyContainer.style.fontFamily = 'sans-serif';
+            historyContainer.style.padding = '30px';
+            historyContainer.style.backgroundColor = '#ffffff';
+            historyContainer.style.color = '#1e293b';
+            historyContainer.style.fontFamily = 'Arial, sans-serif';
+            historyContainer.style.width = '600px';
+
             historyContainer.innerHTML = `
-                <h2 style="font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #10b981;">Resumen de Registros de Cobros</h2>
-                <p style="font-size: 12px; color: #94a3b8; margin-bottom: 15px;">Informe generado desde FacturaSmart</p>
-                <table style="width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 15px;">
+                <div style="border-bottom: 2px solid #10b981; padding-bottom: 10px; margin-bottom: 20px;">
+                    <h2 style="font-size: 20px; font-weight: bold; margin: 0; color: #047857;">Resumen de Registros de Cobros</h2>
+                    <p style="font-size: 12px; color: #64748b; margin: 4px 0 0 0;">Informe generado desde FacturaSmart</p>
+                </div>
+                <table style="width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 20px;">
                     <thead>
-                        <tr style="border-bottom: 2px solid #475569; text-align: left; color: #cbd5e1;">
-                            <th style="padding: 8px;">Fecha</th>
-                            <th style="padding: 8px;">Mes / Concepto</th>
-                            <th style="padding: 8px;">Cliente</th>
-                            <th style="padding: 8px; text-align: right;">Facturado</th>
-                            <th style="padding: 8px; text-align: right;">Neto Real</th>
+                        <tr style="background-color: #f1f5f9; text-align: left; color: #334155;">
+                            <th style="padding: 8px; border-bottom: 2px solid #cbd5e1;">Fecha</th>
+                            <th style="padding: 8px; border-bottom: 2px solid #cbd5e1;">Mes / Concepto</th>
+                            <th style="padding: 8px; border-bottom: 2px solid #cbd5e1;">Cliente</th>
+                            <th style="padding: 8px; border-bottom: 2px solid #cbd5e1; text-align: right;">Facturado</th>
+                            <th style="padding: 8px; border-bottom: 2px solid #cbd5e1; text-align: right;">Neto Real</th>
                         </tr>
                     </thead>
                     <tbody>${rows}</tbody>
                 </table>
-                <div style="text-align: right; font-size: 14px; font-weight: bold; color: #10b981; padding-top: 10px; border-top: 2px solid #10b981;">
+                <div style="text-align: right; font-size: 14px; font-weight: bold; color: #047857; padding-top: 10px; border-top: 2px solid #10b981;">
                     NETO ACUMULADO TOTAL: ${formatCurrency(totalNetAcc)}
                 </div>
             `;
 
-            showToast('Generando PDF del Historial...');
+            showToast('Generando PDF...');
 
             const opt = {
                 margin:       0.3,
                 filename:     `Resumen_Anual_Autonomo_${new Date().getFullYear()}.pdf`,
                 image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, backgroundColor: '#0f172a' },
+                html2canvas:  { scale: 2, useCORS: true, logging: false },
                 jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
             };
 
             html2pdf().set(opt).from(historyContainer).save().then(() => {
-                showToast('¡PDF de historial guardado!');
+                showToast('¡PDF de historial listo!');
             });
         }
 
