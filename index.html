@@ -1,184 +1,440 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>FacturaSmart - Desglose de Autónomos</title>
-<style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;min-height:100%;background:#020617;color:#f8fafc;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
-body{padding:16px;max-width:520px;margin:auto}
-.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
-.brand{display:flex;align-items:center;gap:12px}
-.logo{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#059669,#34d399);display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 8px 20px #10b98133}
-h1{font-size:19px;margin:0;font-weight:800;letter-spacing:-.5px}
-.subtitle{font-size:11px;color:#94a3b8;margin-top:4px}
-.badge{padding:6px 10px;border-radius:999px;background:#10b9811a;border:1px solid #10b98133;color:#34d399;font-size:11px;font-weight:700}
-.card{background:#0f172a;border:1px solid #1e293b;border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 8px 25px #0003;position:relative;overflow:hidden}
-.topline{position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#10b981,#2dd4bf)}
-label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#94a3b8;margin-bottom:8px}
-.inputwrap{position:relative;margin-bottom:16px}
-.euro{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:21px;font-weight:800;color:#34d399}
-input,select{width:100%;background:#020617;border:1px solid #334155;color:#fff;border-radius:10px;outline:none}
-input{padding:12px 40px 12px 38px;font-size:22px;font-weight:800}
-input:focus,select:focus{border-color:#10b981;box-shadow:0 0 0 1px #10b981}
-.clear{display:none;position:absolute;right:10px;top:50%;transform:translateY(-50%);width:28px;height:28px;border:0;border-radius:50%;background:#1e293b;color:#94a3b8;font-size:18px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-select{padding:10px;font-size:12px;font-weight:600}
-.net{background:linear-gradient(135deg,#064e3bcc,#0f172a);border-color:#10b9814d}
-.net-title{color:#34d399;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px}
-.net-value{font-size:36px;font-weight:900;color:#34d399;letter-spacing:-1px;margin-top:4px}
-.note{font-size:11px;color:#94a3b8;margin-top:4px;line-height:1.4}
-.mini{padding:12px}
-.mini-title{font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;font-weight:700}
-.mini-value{display:block;font-size:17px;font-weight:800;margin-top:4px}
-.iva{color:#fbbf24}
-.section-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#94a3b8;padding-bottom:10px;border-bottom:1px solid #1e293b;margin-bottom:10px}
-.row{display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:5px 0;gap:12px}
-.row span:last-child{font-weight:800;white-space:nowrap}
-.green{color:#34d399}.red{color:#fb7185}
-.totalrow{background:#020617;border-radius:8px;padding:9px 10px;margin:4px 0}
-button.copy{width:100%;background:#1e293b;border:1px solid #334155;color:#e2e8f0;padding:13px;border-radius:11px;font-weight:800;font-size:12px}
-button.copy:active{background:#0f172a}
-footer{text-align:center;color:#64748b;font-size:10px;margin:16px 0 4px}
-.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);background:#34d399;color:#022c22;padding:9px 15px;border-radius:999px;font-size:12px;font-weight:800;opacity:0;pointer-events:none;transition:.25s;white-space:nowrap;box-shadow:0 10px 30px #0008}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-@media(max-width:380px){body{padding:12px}.net-value{font-size:31px}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>FacturaSmart - Desglose de Autónomos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
+                    colors: {
+                        brand: { 50: '#ecfdf5', 100: '#d1fae5', 500: '#10b981', 600: '#059669', 700: '#047857', 900: '#064e3b' },
+                        dark: { bg: '#0f172a', card: '#1e293b', input: '#334155', border: '#475569' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #0f172a; color: #f8fafc; }
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type=number] { -moz-appearance: textfield; }
+        @media print {
+            .no-print { display: none !important; }
+            body { background-color: #ffffff !important; color: #000000 !important; }
+        }
+    </style>
 </head>
-<body>
-<header class="header">
-  <div class="brand">
-    <div class="logo">🧮</div>
-    <div><h1>FacturaSmart</h1><div class="subtitle">Gestión de Impuestos Autónomos</div></div>
-  </div>
-  <span class="badge">Andalucía</span>
-</header>
+<body class="min-h-screen bg-slate-950 text-slate-100 flex flex-col justify-between p-4 sm:p-6 max-w-md mx-auto font-sans">
 
-<main>
-<section class="card">
-<div class="topline"></div>
-<label>TOTAL GENERADO / FACTURADO (€)</label>
-<div class="inputwrap">
-<span class="euro">€</span>
-<input type="number" id="totalInput" step="0.01" inputmode="decimal" placeholder="1511.44">
-<button class="clear" id="clearBtn" type="button" onclick="clearInput()">×</button>
-</div>
-<div class="grid2">
-<div><label>Retención IRPF</label>
-<select id="irpfSelect" onchange="calculate()">
-<option value="0.07" selected>7% (Nuevos)</option>
-<option value="0.15">15% (General)</option>
-<option value="0">0% (Sin IRPF)</option>
-</select></div>
-<div><label>Tipo de IVA</label>
-<select id="ivaSelect" onchange="calculate()">
-<option value="0.21" selected>21% (General)</option>
-<option value="0.10">10% (Reducido)</option>
-<option value="0">0% (Exento)</option>
-</select></div>
-</div>
-</section>
+    <div id="exportArea">
+        <header class="flex items-center justify-between mb-5 pt-1">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-emerald-400 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                    <i class="fa-solid fa-calculator text-white text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-lg sm:text-xl tracking-tight text-white leading-none">FacturaSmart</h1>
+                    <p class="text-[11px] text-slate-400 mt-1">Gestión de Impuestos Autónomos</p>
+                </div>
+            </div>
+            <span class="px-2.5 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-full text-[11px] font-bold">
+                Andalucía
+            </span>
+        </header>
 
-<section class="card net">
-<div class="net-title">💰 &nbsp;Beneficio Neto Real</div>
-<div id="netProfitValue" class="net-value">0,00 €</div>
-<div class="note">Beneficio limpio tras descontar el IVA de Hacienda y la retención del IRPF.</div>
-</section>
+        <main class="space-y-3.5">
+            <!-- Formulario principal -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 to-teal-400"></div>
+                
+                <div class="grid grid-cols-2 gap-2.5 mb-3">
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Concepto / Mes</label>
+                        <input type="text" id="conceptInput" placeholder="Ej: Octubre 2026" class="w-full bg-slate-950 border border-slate-700 text-xs font-semibold rounded-lg p-2.5 text-white focus:border-emerald-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Cliente / Nota</label>
+                        <input type="text" id="clientInput" placeholder="Ej: Cliente A" class="w-full bg-slate-950 border border-slate-700 text-xs font-semibold rounded-lg p-2.5 text-white focus:border-emerald-500 outline-none">
+                    </div>
+                </div>
 
-<div class="grid2">
-<section class="card mini">
-<div class="mini-title">Cobro en Banco</div>
-<span id="liquidValue" class="mini-value">0,00 €</span>
-<div class="note">Transferencia a recibir</div>
-</section>
-<section class="card mini">
-<div class="mini-title iva">Hucha IVA</div>
-<span id="huchaValue" class="mini-value iva">0,00 €</span>
-<div class="note">Guardar para Hacienda</div>
-</section>
-</div>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">
+                    TOTAL GENERADO / FACTURADO (€)
+                </label>
+                
+                <div class="relative mb-4">
+                    <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-xl font-extrabold text-emerald-400">€</span>
+                    <input 
+                        type="number" 
+                        id="totalInput" 
+                        step="0.01" 
+                        placeholder="1511.44" 
+                        class="w-full bg-slate-950 border border-slate-700 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 rounded-xl py-3 pl-9 pr-10 text-xl font-black text-white placeholder-slate-600 transition outline-none"
+                    >
+                    <button 
+                        id="clearBtn" 
+                        onclick="clearInput()" 
+                        class="hidden no-print absolute right-2.5 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center"
+                    >
+                        <i class="fa-solid fa-xmark text-xs"></i>
+                    </button>
+                </div>
 
-<section class="card">
-<div class="section-title">Desglose de Factura</div>
-<div class="row"><span>Base Imponible (Sueldo Bruto)</span><span id="baseValue">0,00 €</span></div>
-<div class="row"><span>IVA Repercutido (<span id="ivaRateLabel">21%</span>)</span><span id="ivaValue" class="green">+ 0,00 €</span></div>
-<div class="row totalrow"><span>Total Generado (Base + IVA):</span><span id="costeTotalValue">0,00 €</span></div>
-<div class="row"><span>Retención IRPF (<span id="irpfRateLabel">7%</span>)</span><span id="irpfValue" class="red">- 0,00 €</span></div>
-</section>
+                <div class="grid grid-cols-2 gap-2.5">
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">
+                            Retención IRPF
+                        </label>
+                        <select 
+                            id="irpfSelect" 
+                            onchange="calculate()" 
+                            class="w-full bg-slate-950 border border-slate-700 text-xs font-semibold rounded-lg p-2.5 text-white focus:border-emerald-500 outline-none"
+                        >
+                            <option value="0.07" selected>7% (Nuevos)</option>
+                            <option value="0.15">15% (General)</option>
+                            <option value="0">0% (Sin IRPF)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">
+                            Tipo de IVA
+                        </label>
+                        <select 
+                            id="ivaSelect" 
+                            onchange="calculate()" 
+                            class="w-full bg-slate-950 border border-slate-700 text-xs font-semibold rounded-lg p-2.5 text-white focus:border-emerald-500 outline-none"
+                        >
+                            <option value="0.21" selected>21% (General)</option>
+                            <option value="0.10">10% (Reducido)</option>
+                            <option value="0">0% (Exento)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
 
-<button class="copy" type="button" onclick="copySummary()">📋 &nbsp; Copiar Desglose para WhatsApp</button>
-</main>
+            <!-- Resumen Neto -->
+            <div class="bg-gradient-to-br from-emerald-950/90 via-slate-900 to-slate-900 border border-emerald-500/30 rounded-2xl p-4 shadow-xl">
+                <div class="flex items-center space-x-1.5 text-emerald-400 text-xs font-extrabold uppercase tracking-wider">
+                    <i class="fa-solid fa-wallet text-xs"></i>
+                    <span>Beneficio Neto Real</span>
+                </div>
+                <div id="netProfitValue" class="text-3xl sm:text-4xl font-black text-emerald-400 tracking-tight mt-1">
+                    0,00 €
+                </div>
+                <p class="text-[11px] text-slate-400 mt-1 leading-snug">
+                    Beneficio limpio tras descontar el IVA de Hacienda y la retención del IRPF.
+                </p>
+            </div>
 
-<footer>Calculadora optimizada para móviles autónomos.</footer>
-<div id="toast" class="toast">✓ &nbsp; ¡Copiado al portapapeles!</div>
+            <div class="grid grid-cols-2 gap-2.5">
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-3">
+                    <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Cobro en Banco</span>
+                    <span id="liquidValue" class="text-base font-bold text-white mt-0.5 block">0,00 €</span>
+                    <span class="text-[9px] text-slate-500 block mt-0.5">Transferencia a recibir</span>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-3">
+                    <span class="block text-[10px] font-bold text-amber-400 uppercase tracking-wider">Hucha IVA</span>
+                    <span id="huchaValue" class="text-base font-bold text-amber-400 mt-0.5 block">0,00 €</span>
+                    <span class="text-[9px] text-slate-500 block mt-0.5">Guardar para Hacienda</span>
+                </div>
+            </div>
 
-<script>
-const totalInput=document.getElementById('totalInput');
-const irpfSelect=document.getElementById('irpfSelect');
-const ivaSelect=document.getElementById('ivaSelect');
-const clearBtn=document.getElementById('clearBtn');
-totalInput.value="1511.44";
+            <!-- Desglose de Factura -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl space-y-2.5">
+                <h3 class="text-[11px] font-bold uppercase tracking-wider text-slate-400 pb-1.5 border-b border-slate-800">
+                    Desglose de Factura
+                </h3>
 
-function formatCurrency(amount){
- return new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR',minimumFractionDigits:2,maximumFractionDigits:2}).format(amount);
-}
-function setText(id,text){document.getElementById(id).textContent=text}
-function calculate(){
- const costeTotal=parseFloat(totalInput.value)||0;
- const irpfRate=parseFloat(irpfSelect.value)||0;
- const ivaRate=parseFloat(ivaSelect.value)||0;
- clearBtn.style.display=totalInput.value?'block':'none';
- if(costeTotal<=0){
-  ['netProfitValue','baseValue','costeTotalValue','liquidValue','huchaValue'].forEach(id=>setText(id,'0,00 €'));
-  setText('ivaValue','+ 0,00 €');setText('irpfValue','- 0,00 €');return;
- }
- const base=costeTotal/(1+ivaRate);
- const ivaAmount=base*ivaRate;
- const irpfAmount=base*irpfRate;
- const liquid=base+ivaAmount-irpfAmount;
- const netProfit=base-irpfAmount;
- setText('ivaRateLabel',(ivaRate*100)+'%');setText('irpfRateLabel',(irpfRate*100)+'%');
- setText('netProfitValue',formatCurrency(netProfit));setText('baseValue',formatCurrency(base));
- setText('ivaValue','+ '+formatCurrency(ivaAmount));setText('costeTotalValue',formatCurrency(costeTotal));
- setText('irpfValue','- '+formatCurrency(irpfAmount));setText('liquidValue',formatCurrency(liquid));
- setText('huchaValue',formatCurrency(ivaAmount));
-}
-function clearInput(){totalInput.value='';calculate();totalInput.focus()}
-function copySummary(){
- const costeTotal=parseFloat(totalInput.value)||0;if(costeTotal<=0)return;
- const base=document.getElementById('baseValue').textContent;
- const iva=document.getElementById('ivaValue').textContent;
- const irpf=document.getElementById('irpfValue').textContent;
- const liquid=document.getElementById('liquidValue').textContent;
- const hucha=document.getElementById('huchaValue').textContent;
- const net=document.getElementById('netProfitValue').textContent;
- const text=`📊 DESGLOSE DE FACTURA
-----------------------------
-• Total Generado (Base + IVA): ${formatCurrency(costeTotal)}
-• Base Imponible: ${base}
-• IVA (21%): ${iva}
-• Retención IRPF (7%): ${irpf}
-----------------------------
-💳 Transferencia a Recibir: ${liquid}
-🐷 Hucha IVA (Apartar): ${hucha}
-✨ BENEFICIO NETO REAL: ${net}`;
- if(navigator.clipboard && window.isSecureContext){
-  navigator.clipboard.writeText(text).then(showToast).catch(()=>fallbackCopy(text));
- }else fallbackCopy(text);
-}
-function fallbackCopy(text){
- const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();
- try{document.execCommand('copy');showToast()}catch(e){alert('No se pudo copiar automáticamente.')}
- document.body.removeChild(ta);
-}
-function showToast(){
- const t=document.getElementById('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);
-}
-totalInput.addEventListener('input',calculate);
-calculate();
-</script>
+                <div class="flex items-center justify-between text-xs py-0.5">
+                    <span class="text-slate-300 font-medium">Base Imponible (Sueldo Bruto)</span>
+                    <span id="baseValue" class="font-bold text-white">0,00 €</span>
+                </div>
+
+                <div class="flex items-center justify-between text-xs py-0.5">
+                    <span class="text-slate-300 font-medium">IVA Repercutido (<span id="ivaRateLabel">21%</span>)</span>
+                    <span id="ivaValue" class="font-bold text-emerald-400">+ 0,00 €</span>
+                </div>
+
+                <div class="flex items-center justify-between py-1.5 px-2.5 bg-slate-950 rounded-lg text-[11px]">
+                    <span class="font-medium text-slate-400">Total Generado (Base + IVA):</span>
+                    <span id="costeTotalValue" class="font-bold text-slate-200">0,00 €</span>
+                </div>
+
+                <div class="flex items-center justify-between text-xs py-0.5">
+                    <span class="text-slate-300 font-medium">Retención IRPF (<span id="irpfRateLabel">7%</span>)</span>
+                    <span id="irpfValue" class="font-bold text-rose-400">- 0,00 €</span>
+                </div>
+            </div>
+
+            <!-- Botones de Acción -->
+            <div class="grid grid-cols-2 gap-2.5 no-print">
+                <button 
+                    onclick="saveRecord()" 
+                    class="w-full bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition shadow-lg shadow-blue-600/20"
+                >
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    <span>Guardar Registro</span>
+                </button>
+                <button 
+                    onclick="exportToPDF()" 
+                    class="w-full bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition shadow-lg shadow-emerald-600/20"
+                >
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <span>Exportar PDF</span>
+                </button>
+            </div>
+
+            <!-- Historial Guardado -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl space-y-3 no-print">
+                <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+                    <div>
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-white">Historial de Cobros</h3>
+                        <p id="totalAcumuladoText" class="text-[11px] text-emerald-400 font-bold mt-0.5">Neto Acumulado: 0,00 €</p>
+                    </div>
+                    <button onclick="exportHistoryPDF()" class="text-[11px] text-slate-400 hover:text-white bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-700 flex items-center gap-1">
+                        <i class="fa-solid fa-file-export text-xs"></i>
+                        <span>PDF Anual</span>
+                    </button>
+                </div>
+
+                <div id="historyList" class="space-y-2 max-h-48 overflow-y-auto text-xs pr-1">
+                    <p class="text-slate-500 text-center py-3 text-[11px]">No hay registros guardados.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="mt-4 text-center no-print">
+        <p class="text-[10px] text-slate-500">
+            Calculadora optimizada para móviles autónomos.
+        </p>
+    </footer>
+
+    <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 bg-emerald-500 text-slate-950 px-4 py-2 rounded-full font-bold text-xs shadow-2xl flex items-center gap-2 transition-all opacity-0 pointer-events-none translate-y-4 z-50">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toastMsg">¡Registrado con éxito!</span>
+    </div>
+
+    <script>
+        const totalInput = document.getElementById('totalInput');
+        const irpfSelect = document.getElementById('irpfSelect');
+        const ivaSelect = document.getElementById('ivaSelect');
+        const conceptInput = document.getElementById('conceptInput');
+        const clientInput = document.getElementById('clientInput');
+        const clearBtn = document.getElementById('clearBtn');
+
+        let records = JSON.parse(localStorage.getItem('facturaSmart_records')) || [];
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(amount);
+        }
+
+        function calculate() {
+            const costeTotal = parseFloat(totalInput.value) || 0;
+            const irpfRate = parseFloat(irpfSelect.value) || 0;
+            const ivaRate = parseFloat(ivaSelect.value) || 0;
+
+            if (totalInput.value) { clearBtn.classList.remove('hidden'); } else { clearBtn.classList.add('hidden'); }
+
+            if (costeTotal <= 0) {
+                document.getElementById('netProfitValue').innerText = '0,00 €';
+                document.getElementById('baseValue').innerText = '0,00 €';
+                document.getElementById('ivaValue').innerText = '+ 0,00 €';
+                document.getElementById('costeTotalValue').innerText = '0,00 €';
+                document.getElementById('irpfValue').innerText = '- 0,00 €';
+                document.getElementById('liquidValue').innerText = '0,00 €';
+                document.getElementById('huchaValue').innerText = '0,00 €';
+                return;
+            }
+
+            const base = costeTotal / (1 + ivaRate);
+            const ivaAmount = base * ivaRate;
+            const irpfAmount = base * irpfRate;
+            const liquid = base + ivaAmount - irpfAmount;
+            const netProfit = base - irpfAmount;
+
+            document.getElementById('ivaRateLabel').innerText = (ivaRate * 100) + '%';
+            document.getElementById('irpfRateLabel').innerText = (irpfRate * 100) + '%';
+
+            document.getElementById('netProfitValue').innerText = formatCurrency(netProfit);
+            document.getElementById('baseValue').innerText = formatCurrency(base);
+            document.getElementById('ivaValue').innerText = '+ ' + formatCurrency(ivaAmount);
+            document.getElementById('costeTotalValue').innerText = formatCurrency(costeTotal);
+            document.getElementById('irpfValue').innerText = '- ' + formatCurrency(irpfAmount);
+            document.getElementById('liquidValue').innerText = formatCurrency(liquid);
+            document.getElementById('huchaValue').innerText = formatCurrency(ivaAmount);
+        }
+
+        function clearInput() { totalInput.value = ''; calculate(); totalInput.focus(); }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = msg;
+            toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+            toast.classList.add('opacity-100', 'translate-y-0');
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+            }, 2500);
+        }
+
+        function saveRecord() {
+            const costeTotal = parseFloat(totalInput.value) || 0;
+            if (costeTotal <= 0) return;
+
+            const concept = conceptInput.value.trim() || new Date().toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
+            const client = clientInput.value.trim() || 'General';
+            const netProfitText = document.getElementById('netProfitValue').innerText;
+
+            const record = {
+                id: Date.now(),
+                date: new Date().toLocaleDateString('es-ES'),
+                concept: concept,
+                client: client,
+                total: costeTotal,
+                net: netProfitText
+            };
+
+            records.unshift(record);
+            localStorage.setItem('facturaSmart_records', JSON.stringify(records));
+            renderHistory();
+            showToast('¡Registro guardado!');
+        }
+
+        function deleteRecord(id) {
+            records = records.filter(r => r.id !== id);
+            localStorage.setItem('facturaSmart_records', JSON.stringify(records));
+            renderHistory();
+        }
+
+        function renderHistory() {
+            const list = document.getElementById('historyList');
+            const totalText = document.getElementById('totalAcumuladoText');
+
+            if (records.length === 0) {
+                list.innerHTML = `<p class="text-slate-500 text-center py-3 text-[11px]">No hay registros guardados.</p>`;
+                totalText.innerText = `Neto Acumulado: 0,00 €`;
+                return;
+            }
+
+            let totalNetAcc = 0;
+            list.innerHTML = records.map(r => {
+                const numNet = parseFloat(r.net.replace(/[^0-9,-]+/g, "").replace(',', '.'));
+                if (!isNaN(numNet)) totalNetAcc += numNet;
+
+                return `
+                    <div class="flex items-center justify-between p-2.5 bg-slate-950 rounded-xl border border-slate-800">
+                        <div>
+                            <span class="font-bold text-white block">${r.concept} (${r.client})</span>
+                            <span class="text-[10px] text-slate-400">Facturado: ${formatCurrency(r.total)}</span>
+                        </div>
+                        <div class="text-right flex items-center gap-2">
+                            <div>
+                                <span class="font-black text-emerald-400 block">${r.net}</span>
+                                <span class="text-[9px] text-slate-500 block">${r.date}</span>
+                            </div>
+                            <button onclick="deleteRecord(${r.id})" class="text-slate-600 hover:text-rose-400 p-1">
+                                <i class="fa-solid fa-trash text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            totalText.innerText = `Neto Acumulado: ${formatCurrency(totalNetAcc)}`;
+        }
+
+        function exportToPDF() {
+            const element = document.getElementById('exportArea');
+            const dateStr = new Date().toISOString().slice(0, 10);
+            showToast('Generando PDF...');
+
+            const opt = {
+                margin:       0.3,
+                filename:     `FacturaSmart_${dateStr}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, backgroundColor: '#0f172a' },
+                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                showToast('¡PDF de cálculo listo!');
+            });
+        }
+
+        function exportHistoryPDF() {
+            if (records.length === 0) {
+                showToast('No hay registros para exportar');
+                return;
+            }
+
+            let totalNetAcc = 0;
+            const rows = records.map(r => {
+                const numNet = parseFloat(r.net.replace(/[^0-9,-]+/g, "").replace(',', '.'));
+                if (!isNaN(numNet)) totalNetAcc += numNet;
+                return `
+                    <tr style="border-bottom: 1px solid #334155;">
+                        <td style="padding: 8px;">${r.date}</td>
+                        <td style="padding: 8px;">${r.concept}</td>
+                        <td style="padding: 8px;">${r.client}</td>
+                        <td style="padding: 8px; text-align: right;">${formatCurrency(r.total)}</td>
+                        <td style="padding: 8px; text-align: right; color: #10b981; font-weight: bold;">${r.net}</td>
+                    </tr>
+                `;
+            }).join('');
+
+            const historyContainer = document.createElement('div');
+            historyContainer.style.padding = '20px';
+            historyContainer.style.backgroundColor = '#0f172a';
+            historyContainer.style.color = '#ffffff';
+            historyContainer.style.fontFamily = 'sans-serif';
+            historyContainer.innerHTML = `
+                <h2 style="font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #10b981;">Resumen de Registros de Cobros</h2>
+                <p style="font-size: 12px; color: #94a3b8; margin-bottom: 15px;">Informe generado desde FacturaSmart</p>
+                <table style="width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 15px;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid #475569; text-align: left; color: #cbd5e1;">
+                            <th style="padding: 8px;">Fecha</th>
+                            <th style="padding: 8px;">Mes / Concepto</th>
+                            <th style="padding: 8px;">Cliente</th>
+                            <th style="padding: 8px; text-align: right;">Facturado</th>
+                            <th style="padding: 8px; text-align: right;">Neto Real</th>
+                        </tr>
+                    </thead>
+                    <tbody>${rows}</tbody>
+                </table>
+                <div style="text-align: right; font-size: 14px; font-weight: bold; color: #10b981; padding-top: 10px; border-top: 2px solid #10b981;">
+                    NETO ACUMULADO TOTAL: ${formatCurrency(totalNetAcc)}
+                </div>
+            `;
+
+            showToast('Generando PDF del Historial...');
+
+            const opt = {
+                margin:       0.3,
+                filename:     `Resumen_Anual_Autonomo_${new Date().getFullYear()}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, backgroundColor: '#0f172a' },
+                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(historyContainer).save().then(() => {
+                showToast('¡PDF de historial guardado!');
+            });
+        }
+
+        totalInput.addEventListener('input', calculate);
+        calculate();
+        renderHistory();
+    </script>
 </body>
 </html>
