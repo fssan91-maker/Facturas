@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>FacturaSmart - Desglose de Autónomos</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;background:#020617;color:#f8fafc;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+body{padding:16px;max-width:520px;margin:auto}
+.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#059669,#34d399);display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 8px 20px #10b98133}
+h1{font-size:19px;margin:0;font-weight:800;letter-spacing:-.5px}
+.subtitle{font-size:11px;color:#94a3b8;margin-top:4px}
+.badge{padding:6px 10px;border-radius:999px;background:#10b9811a;border:1px solid #10b98133;color:#34d399;font-size:11px;font-weight:700}
+.card{background:#0f172a;border:1px solid #1e293b;border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 8px 25px #0003;position:relative;overflow:hidden}
+.topline{position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#10b981,#2dd4bf)}
+label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#94a3b8;margin-bottom:8px}
+.inputwrap{position:relative;margin-bottom:16px}
+.euro{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:21px;font-weight:800;color:#34d399}
+input,select{width:100%;background:#020617;border:1px solid #334155;color:#fff;border-radius:10px;outline:none}
+input{padding:12px 40px 12px 38px;font-size:22px;font-weight:800}
+input:focus,select:focus{border-color:#10b981;box-shadow:0 0 0 1px #10b981}
+.clear{display:none;position:absolute;right:10px;top:50%;transform:translateY(-50%);width:28px;height:28px;border:0;border-radius:50%;background:#1e293b;color:#94a3b8;font-size:18px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+select{padding:10px;font-size:12px;font-weight:600}
+.net{background:linear-gradient(135deg,#064e3bcc,#0f172a);border-color:#10b9814d}
+.net-title{color:#34d399;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px}
+.net-value{font-size:36px;font-weight:900;color:#34d399;letter-spacing:-1px;margin-top:4px}
+.note{font-size:11px;color:#94a3b8;margin-top:4px;line-height:1.4}
+.mini{padding:12px}
+.mini-title{font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;font-weight:700}
+.mini-value{display:block;font-size:17px;font-weight:800;margin-top:4px}
+.iva{color:#fbbf24}
+.section-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#94a3b8;padding-bottom:10px;border-bottom:1px solid #1e293b;margin-bottom:10px}
+.row{display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:5px 0;gap:12px}
+.row span:last-child{font-weight:800;white-space:nowrap}
+.green{color:#34d399}.red{color:#fb7185}
+.totalrow{background:#020617;border-radius:8px;padding:9px 10px;margin:4px 0}
+button.copy{width:100%;background:#1e293b;border:1px solid #334155;color:#e2e8f0;padding:13px;border-radius:11px;font-weight:800;font-size:12px}
+button.copy:active{background:#0f172a}
+footer{text-align:center;color:#64748b;font-size:10px;margin:16px 0 4px}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);background:#34d399;color:#022c22;padding:9px 15px;border-radius:999px;font-size:12px;font-weight:800;opacity:0;pointer-events:none;transition:.25s;white-space:nowrap;box-shadow:0 10px 30px #0008}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:380px){body{padding:12px}.net-value{font-size:31px}}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="brand">
+    <div class="logo">🧮</div>
+    <div><h1>FacturaSmart</h1><div class="subtitle">Gestión de Impuestos Autónomos</div></div>
+  </div>
+  <span class="badge">Andalucía</span>
+</header>
+
+<main>
+<section class="card">
+<div class="topline"></div>
+<label>TOTAL GENERADO / FACTURADO (€)</label>
+<div class="inputwrap">
+<span class="euro">€</span>
+<input type="number" id="totalInput" step="0.01" inputmode="decimal" placeholder="1511.44">
+<button class="clear" id="clearBtn" type="button" onclick="clearInput()">×</button>
+</div>
+<div class="grid2">
+<div><label>Retención IRPF</label>
+<select id="irpfSelect" onchange="calculate()">
+<option value="0.07" selected>7% (Nuevos)</option>
+<option value="0.15">15% (General)</option>
+<option value="0">0% (Sin IRPF)</option>
+</select></div>
+<div><label>Tipo de IVA</label>
+<select id="ivaSelect" onchange="calculate()">
+<option value="0.21" selected>21% (General)</option>
+<option value="0.10">10% (Reducido)</option>
+<option value="0">0% (Exento)</option>
+</select></div>
+</div>
+</section>
+
+<section class="card net">
+<div class="net-title">💰 &nbsp;Beneficio Neto Real</div>
+<div id="netProfitValue" class="net-value">0,00 €</div>
+<div class="note">Beneficio limpio tras descontar el IVA de Hacienda y la retención del IRPF.</div>
+</section>
+
+<div class="grid2">
+<section class="card mini">
+<div class="mini-title">Cobro en Banco</div>
+<span id="liquidValue" class="mini-value">0,00 €</span>
+<div class="note">Transferencia a recibir</div>
+</section>
+<section class="card mini">
+<div class="mini-title iva">Hucha IVA</div>
+<span id="huchaValue" class="mini-value iva">0,00 €</span>
+<div class="note">Guardar para Hacienda</div>
+</section>
+</div>
+
+<section class="card">
+<div class="section-title">Desglose de Factura</div>
+<div class="row"><span>Base Imponible (Sueldo Bruto)</span><span id="baseValue">0,00 €</span></div>
+<div class="row"><span>IVA Repercutido (<span id="ivaRateLabel">21%</span>)</span><span id="ivaValue" class="green">+ 0,00 €</span></div>
+<div class="row totalrow"><span>Total Generado (Base + IVA):</span><span id="costeTotalValue">0,00 €</span></div>
+<div class="row"><span>Retención IRPF (<span id="irpfRateLabel">7%</span>)</span><span id="irpfValue" class="red">- 0,00 €</span></div>
+</section>
+
+<button class="copy" type="button" onclick="copySummary()">📋 &nbsp; Copiar Desglose para WhatsApp</button>
+</main>
+
+<footer>Calculadora optimizada para móviles autónomos.</footer>
+<div id="toast" class="toast">✓ &nbsp; ¡Copiado al portapapeles!</div>
+
+<script>
+const totalInput=document.getElementById('totalInput');
+const irpfSelect=document.getElementById('irpfSelect');
+const ivaSelect=document.getElementById('ivaSelect');
+const clearBtn=document.getElementById('clearBtn');
+totalInput.value="1511.44";
+
+function formatCurrency(amount){
+ return new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR',minimumFractionDigits:2,maximumFractionDigits:2}).format(amount);
+}
+function setText(id,text){document.getElementById(id).textContent=text}
+function calculate(){
+ const costeTotal=parseFloat(totalInput.value)||0;
+ const irpfRate=parseFloat(irpfSelect.value)||0;
+ const ivaRate=parseFloat(ivaSelect.value)||0;
+ clearBtn.style.display=totalInput.value?'block':'none';
+ if(costeTotal<=0){
+  ['netProfitValue','baseValue','costeTotalValue','liquidValue','huchaValue'].forEach(id=>setText(id,'0,00 €'));
+  setText('ivaValue','+ 0,00 €');setText('irpfValue','- 0,00 €');return;
+ }
+ const base=costeTotal/(1+ivaRate);
+ const ivaAmount=base*ivaRate;
+ const irpfAmount=base*irpfRate;
+ const liquid=base+ivaAmount-irpfAmount;
+ const netProfit=base-irpfAmount;
+ setText('ivaRateLabel',(ivaRate*100)+'%');setText('irpfRateLabel',(irpfRate*100)+'%');
+ setText('netProfitValue',formatCurrency(netProfit));setText('baseValue',formatCurrency(base));
+ setText('ivaValue','+ '+formatCurrency(ivaAmount));setText('costeTotalValue',formatCurrency(costeTotal));
+ setText('irpfValue','- '+formatCurrency(irpfAmount));setText('liquidValue',formatCurrency(liquid));
+ setText('huchaValue',formatCurrency(ivaAmount));
+}
+function clearInput(){totalInput.value='';calculate();totalInput.focus()}
+function copySummary(){
+ const costeTotal=parseFloat(totalInput.value)||0;if(costeTotal<=0)return;
+ const base=document.getElementById('baseValue').textContent;
+ const iva=document.getElementById('ivaValue').textContent;
+ const irpf=document.getElementById('irpfValue').textContent;
+ const liquid=document.getElementById('liquidValue').textContent;
+ const hucha=document.getElementById('huchaValue').textContent;
+ const net=document.getElementById('netProfitValue').textContent;
+ const text=`📊 DESGLOSE DE FACTURA
+----------------------------
+• Total Generado (Base + IVA): ${formatCurrency(costeTotal)}
+• Base Imponible: ${base}
+• IVA (21%): ${iva}
+• Retención IRPF (7%): ${irpf}
+----------------------------
+💳 Transferencia a Recibir: ${liquid}
+🐷 Hucha IVA (Apartar): ${hucha}
+✨ BENEFICIO NETO REAL: ${net}`;
+ if(navigator.clipboard && window.isSecureContext){
+  navigator.clipboard.writeText(text).then(showToast).catch(()=>fallbackCopy(text));
+ }else fallbackCopy(text);
+}
+function fallbackCopy(text){
+ const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();
+ try{document.execCommand('copy');showToast()}catch(e){alert('No se pudo copiar automáticamente.')}
+ document.body.removeChild(ta);
+}
+function showToast(){
+ const t=document.getElementById('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);
+}
+totalInput.addEventListener('input',calculate);
+calculate();
+</script>
+</body>
+</html>
